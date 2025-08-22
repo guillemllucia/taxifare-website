@@ -4,7 +4,7 @@ import datetime
 import pandas as pd
 
 # A brief introduction to the app.
-st.title("2025 Prices... 1978 Cars...")
+st.title("💸2025 Prices... 🚕1978 Cars...")
 
 # The URL for the API. You will need to replace this with your actual URL.
 # This variable is clearly marked for the user to update.
