@@ -2,6 +2,7 @@ import streamlit as st
 import requests
 import datetime
 import pandas as pd
+import random
 
 # A brief introduction to the app.
 st.title("🚖 TaxiFare Calculator")
@@ -13,8 +14,26 @@ API_URL = 'https://taxifare-505391779697.europe-southwest1.run.app/predict'
 # The image of the yellow taxi
 st.image("https://live.staticflickr.com/8854/17828228261_3cf73de867_b.jpg")
 
+# Initialize session state for coordinates if they don't exist
+if 'pickup_latitude' not in st.session_state:
+    st.session_state.pickup_latitude = 40.757139
+    st.session_state.pickup_longitude = -73.985655
+if 'dropoff_latitude' not in st.session_state:
+    st.session_state.dropoff_latitude = 40.761421
+    st.session_state.dropoff_longitude = -73.987795
+
+# Function to generate random NYC-like coordinates and update session state
+def randomize_coordinates():
+    st.session_state.pickup_latitude = random.uniform(40.7, 40.8)
+    st.session_state.pickup_longitude = random.uniform(-74.0, -73.9)
+    st.session_state.dropoff_latitude = random.uniform(40.7, 40.8)
+    st.session_state.dropoff_longitude = random.uniform(-74.0, -73.9)
+
 # Create a form to gather all the user inputs.
 with st.form(key='fare_form'):
+    # A button to randomize coordinates
+    st.button("Randomize Coordinates", on_click=randomize_coordinates)
+
     # Let's get the date and time.
     # The default value is set to the current date and time.
     date = st.date_input("Date of the ride", value=datetime.date.today())
@@ -25,12 +44,12 @@ with st.form(key='fare_form'):
     st.markdown("#### Pickup and Dropoff Coordinates")
     col1, col2 = st.columns(2)
     with col1:
-        # Changed default values to a valid location in NYC for a working example
-        pickup_longitude = st.number_input("Pickup Longitude", value=-73.985655, format="%.6f", step=0.000001)
-        pickup_latitude = st.number_input("Pickup Latitude", value=40.757139, format="%.6f", step=0.000001)
+        # Connect input values to session state
+        pickup_longitude = st.number_input("Pickup Longitude", value=st.session_state.pickup_longitude, format="%.6f", step=0.000001)
+        pickup_latitude = st.number_input("Pickup Latitude", value=st.session_state.pickup_latitude, format="%.6f", step=0.000001)
     with col2:
-        dropoff_longitude = st.number_input("Dropoff Longitude", value=-73.987795, format="%.6f", step=0.000001)
-        dropoff_latitude = st.number_input("Dropoff Latitude", value=40.761421, format="%.6f", step=0.000001)
+        dropoff_longitude = st.number_input("Dropoff Longitude", value=st.session_state.dropoff_longitude, format="%.6f", step=0.000001)
+        dropoff_latitude = st.number_input("Dropoff Latitude", value=st.session_state.dropoff_latitude, format="%.6f", step=0.000001)
 
     # Get the passenger count.
     passenger_count = st.slider(
@@ -96,3 +115,4 @@ if submit_button:
                 st.error(f"Error calling the API: {e}")
             except ValueError as e:
                 st.error(f"Error parsing API response: {e}")
+
