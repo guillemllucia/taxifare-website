@@ -1,6 +1,7 @@
 import streamlit as st
 import requests
 import datetime
+import pandas as pd
 
 # A brief introduction to the app.
 st.title("🚖 TaxiFare Calculator")
@@ -8,6 +9,9 @@ st.title("🚖 TaxiFare Calculator")
 # The URL for the API. You will need to replace this with your actual URL.
 # This variable is clearly marked for the user to update.
 API_URL = 'https://taxifare-505391779697.europe-southwest1.run.app/predict'
+
+# The image of the yellow taxi
+st.image("https://live.staticflickr.com/8854/17828228261_3cf73de867_b.jpg")
 
 # Create a form to gather all the user inputs.
 with st.form(key='fare_form'):
@@ -73,6 +77,17 @@ if submit_button:
                 if 'fare' in prediction:
                     fare = round(prediction['fare'], 2)
                     st.success(f"### 💰 Predicted Fare: ${fare}")
+
+                    # Create a DataFrame with the pickup and dropoff points for the map
+                    map_data = pd.DataFrame(
+                        [
+                            {"lat": pickup_latitude, "lon": pickup_longitude},
+                            {"lat": dropoff_latitude, "lon": dropoff_longitude}
+                        ]
+                    )
+
+                    # Display the map showing the two points
+                    st.map(map_data, zoom=12)
                 else:
                     # Provide a more detailed error message with the full API response
                     st.error(f"Error: API response did not contain a 'fare' key. Full response: {prediction}")
