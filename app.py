@@ -4,14 +4,14 @@ import datetime
 import pandas as pd
 
 # A brief introduction to the app.
-st.title("2025 Prices... 🚕1978 Cars...")
+st.title("💸2025 Prices... 🚕1978 Cars...")
 
 # The URL for the API. You will need to replace this with your actual URL.
 # This variable is clearly marked for the user to update.
 API_URL = 'https://taxifare-505391779697.europe-southwest1.run.app/predict'
 
 # The image of the yellow taxi
-st.image("https://live.staticflickr.com/8854/17828228261_3cf73de867_b.jpg")
+st.image("https://i.postimg.cc/XJR87PR3/17828228261-3cf73de867-b.jpg")
 
 # Create a form to gather all the user inputs.
 with st.form(key='fare_form'):
