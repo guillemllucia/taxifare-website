@@ -11,7 +11,7 @@ st.title("💸2025 Prices... 🚕1978 Cars...")
 API_URL = 'https://taxifare-505391779697.europe-southwest1.run.app/predict'
 
 # The image of the yellow taxi
-st.image("https://i.postimg.cc/XJR87PR3/17828228261-3cf73de867-b.jpg")
+st.image("https://i.postimg.cc/mZVk49Cp/17828228261-3cf73de867-b.jpg")
 
 # Create a form to gather all the user inputs.
 with st.form(key='fare_form'):
